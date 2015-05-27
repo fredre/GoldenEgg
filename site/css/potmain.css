@@ -1,0 +1,14 @@
+.leftCol {
+    background-color: darkkhaki;
+}
+
+.rightCol {
+    background-color: bisque;
+}
+
+#myResponsiveWindow {
+    -webkit-transition: all 2s;
+    -moz-transition: all 2s;
+    -o-transition: all 2s;
+    transition: all 2s;
+}
