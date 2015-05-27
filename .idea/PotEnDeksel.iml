@@ -6,5 +6,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="AngularJS" level="application" />
     <orderEntry type="library" name="Angular" level="application" />
+    <orderEntry type="library" name="Firebase" level="application" />
+    <orderEntry type="library" name="angularfire.min.js" level="application" />
   </component>
 </module>
