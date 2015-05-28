@@ -64,8 +64,8 @@
     ]);
 
 //Controller for the  login page
-    app.controller('loginCtrl', ["$scope","Auth",
-        function ($scope,Auth) {
+    app.controller('loginCtrl', ["$scope","Auth","$firebaseObject",
+        function ($scope,Auth,$firebaseObject) {
 
 
             $scope.auth = Auth;
@@ -88,6 +88,19 @@
                 $scope.auth.$authWithPassword({email: $scope.email, password: $scope.password}).then(function (authData) {
                     console.log("Logged in as:", authData.uid);
                     $scope.authData = authData;
+
+
+                    var ref = new Firebase("https://shining-fire-7469.firebaseio.com/");
+                     // download physicsmarie's profile data into a local object
+                     // all server changes are applied in realtime
+                      $scope.profile = $firebaseObject(ref.child('sites').child(authData.uid));
+
+                    $scope.profile.lastSeen = new Date();
+
+                    $scope.profile.$save();
+
+
+
                 }).catch(function (error) {
                     console.error("Authentication failed:", error);
                     $scope.error = error;
@@ -150,4 +163,4 @@
 
 })();
 
-//Reynier Landman
+//http://www.ng-newsletter.com/posts/back-end-with-firebase.html
