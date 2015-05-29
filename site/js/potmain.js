@@ -1,6 +1,6 @@
 (function () {
 
-    var app = angular.module('potConf', ["firebase", "ngRoute",'ui.bootstrap']);
+    var app = angular.module('potConf', ["firebase", "ngRoute",'ui.bootstrap',"ngMaterial"]);
 
 
 //General Info for the APP
@@ -63,9 +63,27 @@
         }
     ]);
 
+// a factory to create a re-usable sites object
+// we pass in a username and get back their synchronized data
+    app.factory("Profile", ["$firebaseObject",
+        function($firebaseObject) {
+            return function(userid) {
+
+                // create a reference to the Firebase where we will store our data
+                var ref = new Firebase("https://shining-fire-7469.firebaseio.com/sites/");
+                var profileRef = ref.child(userid);
+
+                // return it as a synchronized object
+                return $firebaseObject(profileRef);
+            }
+        }
+    ]);
+
+
 //Controller for the  login page
-    app.controller('loginCtrl', ["$scope","Auth","$firebaseObject",
-        function ($scope,Auth,$firebaseObject) {
+    //TODO: Activate FB login
+    app.controller('loginCtrl', ["$scope","Auth","Profile","$filter",
+        function ($scope,Auth,Profile,$filter) {
 
 
             $scope.auth = Auth;
@@ -84,24 +102,24 @@
 
             $scope.login_normal = function() {
 
-
                 $scope.auth.$authWithPassword({email: $scope.email, password: $scope.password}).then(function (authData) {
                     console.log("Logged in as:", authData.uid);
                     $scope.authData = authData;
 
+                    //After login make sure to update last login time. This will also serve as an entry
+                    //point to make sure the use has something in the database
 
-                    var ref = new Firebase("https://shining-fire-7469.firebaseio.com/");
-                     // download physicsmarie's profile data into a local object
-                     // all server changes are applied in realtime
-                      $scope.profile = $firebaseObject(ref.child('sites').child(authData.uid));
-
-                    $scope.profile.lastSeen = new Date();
-
+                    //Get profile and save basic info on login
+                    $scope.profile = Profile(authData.uid);
+                    $scope.profile.email = authData.password.email;
+                    $scope.profile.lastSeen = $filter('date')(new Date(),'medium');
                     $scope.profile.$save();
 
+                    //TODO: Redirect to correct page when login is scsessful
 
 
                 }).catch(function (error) {
+                    //TODO Add nice error message for login failures
                     console.error("Authentication failed:", error);
                     $scope.error = error;
                 });
@@ -115,7 +133,8 @@
 
 
 //Controller for the  appBuilder.html page
-    app.controller('appBuilderCtrl', function ($scope) {
+    app.controller('appBuilderCtrl',["$scope","Profile","Auth",
+        function ($scope,Profile,Auth) {
 
         //Load ingo from the array
         $scope.tempInfo = templatesInfo;
@@ -124,7 +143,27 @@
         $scope.selectedTemplID = 0;
         $scope.selected = 0;
 
-        //Handles template selection changes
+        //Get the users Profile data and Authentication status!
+        //The authenticaqtion ID is needed to get the correct object and is binded to the $scope.profile
+
+            $scope.authData = Auth.$getAuth();
+
+            if ($scope.authData) {
+                console.log("Logged in as:", $scope.authData.uid);
+            } else {
+                console.log("Logged out");
+                //TODO: Throw back to login page since the user needs to be logged in to complete this action
+                console.error("User should not be able to be here without loggin in.!");
+            }
+
+
+            Profile($scope.authData.uid).$bindTo($scope, "profile").then(function() {
+                console.log($scope.profile);
+            });
+
+
+
+            //Handles template selection changes
         $scope.selectTempl = function (theTemp) {
             console.log(theTemp);
             $scope.selectedTemplID = theTemp.id;
@@ -135,10 +174,11 @@
 
         //Handles changes to any content data that needs to be passed over to the iframe
         $scope.updateIframe = function () {
-            document.getElementById('myResponsiveWindow').contentWindow.updatedata($scope.data);
+            document.getElementById('myResponsiveWindow').contentWindow.updatedata($scope.profile);
         };
 
-    });
+    }
+    ]);
 
 //Controller for header
     app.controller('HeaderInfoContr',["$scope","Auth",
@@ -163,4 +203,4 @@
 
 })();
 
-//http://www.ng-newsletter.com/posts/back-end-with-firebase.html
+
