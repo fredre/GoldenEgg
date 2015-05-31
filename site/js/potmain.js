@@ -1,6 +1,6 @@
 (function () {
 
-    var app = angular.module('potConf', ["firebase", "ngRoute",'ui.bootstrap',"ngMaterial"]);
+    var app = angular.module('potConf', ["firebase", "ngRoute",'ui.bootstrap',"ngMaterial",'ngMessages']);
 
 
 //General Info for the APP
@@ -82,8 +82,8 @@
 
 //Controller for the  login page
     //TODO: Activate FB login
-    app.controller('loginCtrl', ["$scope","Auth","Profile","$filter",
-        function ($scope,Auth,Profile,$filter) {
+    app.controller('loginCtrl', ["$scope","Auth","Profile","$filter","$mdToast",
+        function ($scope,Auth,Profile,$filter,$mdToast) {
 
 
             $scope.auth = Auth;
@@ -101,6 +101,9 @@
 
 
             $scope.login_normal = function() {
+
+                //Start the login animation
+                $scope.loadingLogin=true;
 
                 $scope.auth.$authWithPassword({email: $scope.email, password: $scope.password}).then(function (authData) {
                     console.log("Logged in as:", authData.uid);
@@ -122,6 +125,10 @@
                     //TODO Add nice error message for login failures
                     console.error("Authentication failed:", error);
                     $scope.error = error;
+
+                    $mdToast.show($mdToast.simple().content('Hello!'));
+
+                    $scope.loadingLogin=false;
                 });
 
             };
