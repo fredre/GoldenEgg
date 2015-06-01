@@ -13,22 +13,22 @@
 
     var templatesInfo = [
         {
-            name: "Template 1",
-            desc: "Custom template",
+            name: "The test template",
+            desc: "A template used for testing purposes",
             show: true,
-            id: 0,
+            id: 1,
             usedcounter: 4,
-            thumbnail: "balbal.jpg"
-
-
+            thumbnail: "balbal.jpg",
+            preview:"preview.png"
         },
         {
             name: "Template 2",
             desc: "Good looking template for nice people",
             show: true,
-            id: 1,
+            id: 2,
             usedcounter: 4,
-            thumbnail: "balbal.jpg"
+            thumbnail: "balbal.jpg",
+            preview:"preview.png"
         }
     ];
 
@@ -140,15 +140,15 @@
 
 
 //Controller for the  appBuilder.html page
-    app.controller('appBuilderCtrl',["$scope","Profile","Auth",
-        function ($scope,Profile,Auth) {
+    app.controller('appBuilderCtrl',["$scope","Profile","Auth","$mdSidenav",
+        function ($scope,Profile,Auth,$mdSidenav) {
 
-        //Load ingo from the array
+        //Load info from the array
         $scope.tempInfo = templatesInfo;
 
         //First templete to load
-        $scope.selectedTemplID = 0;
-        $scope.selected = 0;
+        $scope.selectedTemplID = 1;
+        $scope.selected = 1;
 
         //Get the users Profile data and Authentication status!
         //The authenticaqtion ID is needed to get the correct object and is binded to the $scope.profile
@@ -182,6 +182,11 @@
         //Handles changes to any content data that needs to be passed over to the iframe
         $scope.updateIframe = function () {
             document.getElementById('myResponsiveWindow').contentWindow.updatedata($scope.profile);
+        };
+
+        //Handles changes to any content data that needs to be passed over to the iframe
+        $scope.openTemplateSelector = function () {
+            $mdSidenav('right').toggle();
         };
 
     }
