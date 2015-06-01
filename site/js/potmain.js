@@ -119,7 +119,7 @@
                     $scope.profile.$save();
 
                     //TODO: Redirect to correct page when login is scsessful
-
+                    $scope.loadingLogin=false;
 
                 }).catch(function (error) {
                     //TODO Add nice error message for login failures

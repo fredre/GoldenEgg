@@ -12,11 +12,11 @@
 
         <form name="loginForm">
             <div class="form-group">
-                <input type="text" class="form-control input-lg" placeholder="Email" ng-model="email">
+
 
                 <md-input-container>
                     <label>Email</label>
-                    <input  ng-model="email">
+                    <input type="email"  ng-model="email" required >
                     <div ng-messages="loginForm.description.$error">
                         <div ng-message="required">This is required.</div>
                         <div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
@@ -25,7 +25,17 @@
 
             </div>
             <div class="form-group">
-                <input type="password" class="form-control input-lg" placeholder="Password" ng-model="password">
+
+                <md-input-container>
+                    <label>Password</label>
+                    <input type="password"  ng-model="password" required >
+                    <div ng-messages="loginForm.description.$error">
+                        <div ng-message="required">This is required.</div>
+                        <div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
+                    </div>
+                </md-input-container>
+
+
             </div>
 
             <div class="form-group">
