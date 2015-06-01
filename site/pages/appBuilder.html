@@ -2,46 +2,63 @@
 
 
 <div class="container-fluid">
+
     <!--Main row -->
-    <div class="row">
-
-
+    <div class="row ">
 
         <!--  Left col for enterign data-->
-        <div class="col-xs-3 leftCol ">
+        <div class="col-lg-3 col-md-3 hidden-xs">
 
-            <div class="form-group">
-                <input type="text" ng-change="updateIframe()" placeholder="Enter bride name" class="form-control"
-                       ng-model="data">
-                <button ng-click="updateIframe()">Reset</button>
-            </div>
+            <md-sidenav class="md-sidenav-left " md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
 
+                <md-toolbar ><h1 class="md-toolbar-tools">Sidenav Left</h1></md-toolbar>
+
+                <md-content layout-padding ng-controller="appBuilderCtrl">
+                    <md-button ng-click="close()" class="md-primary" hide-gt-md>
+                        Close Sidenav Left
+                    </md-button>
+
+
+                    <md-input-container>
+                        <label>Bride Name</label>
+                        <input type="text"   ng-change="updateIframe()"  ng-model="data"  >
+                    </md-input-container>
+
+                    <md-button ng-click="updateIframe()">Reset</md-button>
+
+                </md-content>
+            </md-sidenav>
 
         </div>
 
         <!--  Right col for loading html file-->
-        <div class="col-xs-9 rightCol">
-            <label class="label label-info">{{mytext}}</label>
+        <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
 
+            <md-toolbar>
+                <div class="md-toolbar-tools">
+                    <label>Size:</label>
+                    <md-button onclick="reset();">Reset</md-button>
+                    <md-button onclick="resize(1024)">1024</md-button>
+                    <md-button onclick="resize(960)">960</md-button>
+                    <md-button onclick="resize(528)">528</md-button>
 
-            <div style="height: 40px;">
-                <md-button onclick="reset();">Reset</md-button>
-                <md-button onclick="resize(1024)">1024</md-button>
-                <md-button onclick="resize(960)">960</md-button>
-                <md-button onclick="resize(528)">528</md-button>
-                <md-button ng-click="openTemplateSelector()">Select Template</md-button>
-            </div>
+                    <!-- fill up the space between left and right area -->
+                    <span flex></span>
+                    <md-button ng-click="openTemplateSelector()" class = "md-raised md-primary navbar-right">Select Template </md-button>
+                </div>
+            </md-toolbar>
 
-            <iframe id="myResponsiveWindow" src="templates/1/index.html" style="width: 100%; height: 660px"></iframe>
+            <iframe id="myResponsiveWindow" src="templates/1/index.html" style="width: 100%; height: 1024px"></iframe>
 
 
 
             <md-sidenav md-component-id="right"  class="md-sidenav-right">
 
-
               <!-- New card for every theme configured -->
 
                 <md-content class="md-padding" >
+
+                    <md-toolbar ><h1 class="md-toolbar-tools">Templates</h1></md-toolbar>
 
                 <md-card ng-show="{{template.show}}" ng-repeat="template in tempInfo">
                     <img ng-src="templates/{{template.id}}/preview.png" class="md-card-image" alt="image caption">
@@ -64,3 +81,5 @@
 
 
 </div>
+
+    </div>

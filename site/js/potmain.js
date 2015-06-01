@@ -1,7 +1,11 @@
 (function () {
 
-    var app = angular.module('potConf', ["firebase", "ngRoute",'ui.bootstrap',"ngMaterial",'ngMessages']);
-
+    var app = angular.module('potConf', ["firebase", "ngRoute",'ui.bootstrap',"ngMaterial",'ngMessages'])
+        .config(function($mdThemingProvider) {
+            $mdThemingProvider.theme('default')
+                .primaryPalette('light-blue')
+                .accentPalette('orange');
+        });
 
 //General Info for the APP
     var appInfo = {
@@ -140,8 +144,8 @@
 
 
 //Controller for the  appBuilder.html page
-    app.controller('appBuilderCtrl',["$scope","Profile","Auth","$mdSidenav",
-        function ($scope,Profile,Auth,$mdSidenav) {
+    app.controller('appBuilderCtrl',["$scope","Profile","Auth","$mdSidenav","$mdMedia",
+        function ($scope,Profile,Auth,$mdSidenav,$mdMedia) {
 
         //Load info from the array
         $scope.tempInfo = templatesInfo;
