@@ -154,6 +154,29 @@
         $scope.selectedTemplID = 1;
         $scope.selected = 1;
 
+        //The different device sizes
+        $scope.devices = [
+            { category: 'Desktop', name: 'Large',width:1920,height:1080 },
+            { category: 'Desktop', name: 'Medium',width:1024,height:600 },
+            { category: 'Desktop', name: 'Small',width:800,height:600 },
+            { category: 'Phone', name: 'Apple iPhone 6',width:375,height:667 },
+            { category: 'Phone', name: 'Apple iPhone 4',width:320,height:480 },
+            { category: 'Phone', name: 'Samsung Galaxy S4',width:360,height:640 },
+            { category: 'Phone', name: 'Samsung Galaxy S3 mini',width:320,height:533 },
+            { category: 'Phone', name: 'Blackberry Classic',width:390,height:390 },
+            { category: 'Phone', name: 'Blackberry Z10',width:384,height:640 },
+            { category: 'Phablet', name: 'Apple iPhone 6 Plus',width:414,height:736 },
+            { category: 'Phablet', name: 'Motorola Nexus 6',width:412,height:690 },
+            { category: 'Phablet', name: 'Microsoft Lumia 1520',width:320,height:480 },
+            { category: 'Phablet', name: 'Samsung Galaxy Note 3',width:360,height:640 },
+            { category: 'Tablet', name: 'Apple iPad 3, 4, Air, mini',width:768,height:1024 },
+            { category: 'Tablet', name: 'Samsung Galaxy Tab 2,3 10"',width:800,height:1280 },
+            { category: 'Tablet', name: 'Samsung Galaxy Tab 2 (7")',width:600,height:1024 },
+            { category: 'Tablet', name: 'Amazon Kindle Fire',width:600,height:1024 }
+
+
+        ];
+
         //Get the users Profile data and Authentication status!
         //The authenticaqtion ID is needed to get the correct object and is binded to the $scope.profile
 
@@ -172,7 +195,20 @@
                 console.log($scope.profile);
             });
 
+        //Changes the size of the preview window
+            $scope.updateDisplay=function (width,height){
+                console.log('Change preview size '+width +height);
+                document.querySelector("#myResponsiveWindow").style.width = width + "px";
+                document.querySelector("#myResponsiveWindow").style.height = height + "px";
+            };
 
+            //Reset the view to original screen paramaters
+            $scope.resetDisplay = function() {
+                document.querySelector("#myResponsiveWindow").style.width = "100%";
+
+                //TODO: Fix the high restore
+                document.querySelector("#myResponsiveWindow").style.height =window.innerHeight;
+            };
 
             //Handles template selection changes
         $scope.selectTempl = function (theTemp) {
@@ -188,10 +224,17 @@
             document.getElementById('myResponsiveWindow').contentWindow.updatedata($scope.profile);
         };
 
-        //Handles changes to any content data that needs to be passed over to the iframe
+        //Shows the template selector sidenav
         $scope.openTemplateSelector = function () {
             $mdSidenav('right').toggle();
         };
+
+
+        $scope.openInfoSetter = function () {
+          $mdSidenav('left').toggle();
+         };
+
+
 
     }
     ]);
