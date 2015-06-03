@@ -1,0 +1,12 @@
+<!--For displaying the template info-->
+
+<md-card ng-show="{{template.show}}" ng-repeat="template in tempInfo">
+    <img ng-src="templates/{{template.id}}/preview.png" class="md-card-image" alt="image caption">
+    <md-card-content>
+        <h2  class="md-title">{{template.name}}</h2>
+        <p>{{template.desc}}</p>
+        <div class="md-actions" layout="row" layout-align="end center">
+            <md-button ng-click="profile.currTemplate=template.src">Try this template</md-button>
+        </div>
+    </md-card-content>
+</md-card>

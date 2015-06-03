@@ -1,9 +1,5 @@
 <!--Main body-->
-
-
-<div class="container-fluid">
-
-
+<div class="container-fluid" ng-controller="appBuilderCtrl">
     <!--Main row -->
     <div class="row ">
 
@@ -12,119 +8,106 @@
             <!-- New card for every theme configured -->
             <md-content class="md-padding" >
 
-                <md-toolbar ><h1 class="md-toolbar-tools">Templates</h1></md-toolbar>
+                <md-toolbar layout="row" >
+                    <md-button class="md-toolbar-tools" ng-click="openTemplateSelector()" >   <i class="material-icons md-24 md-light">input</i> <span>Select Template </span></md-button>
+                </md-toolbar>
 
-                <md-card ng-show="{{template.show}}" ng-repeat="template in tempInfo">
-                    <img ng-src="templates/{{template.id}}/preview.png" class="md-card-image" alt="image caption">
-                    <md-card-content>
-                        <h2  class="md-title">{{template.name}}</h2>
-                        <p>{{template.desc}}</p>
-                        <div class="md-actions" layout="row" layout-align="end center">
-                            <md-button>Try this template</md-button>
-                        </div>
-                    </md-card-content>
-
-                </md-card>
-            </md-content>
-        </md-sidenav>
-
-
-
-        <md-sidenav class="md-sidenav-left" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')" show-sm hide-gt-md>
-            <md-toolbar ><h1 class="md-toolbar-tools">Your Information</h1></md-toolbar>
-
-            <md-content layout-padding ng-controller="appBuilderCtrl">
-                <md-button ng-click="close()" class="md-primary" hide-gt-md>
-                    Close Sidenav Left
-                </md-button>
-
-                <md-input-container>
-                    <label>Bride Name</label>
-                    <input type="text"   ng-change="updateIframe()"  ng-model="data"  >
-                </md-input-container>
-
-                <md-button ng-click="updateIframe()">Reset</md-button>
+                <div ng-include="'pages/templateview.html'"></div>
 
             </md-content>
         </md-sidenav>
 
 
+        <!--  Left sidenav for smaller devices-->
+        <md-sidenav class="md-sidenav-left" md-component-id="left"  show-sm show-md show-lg hide-gt-md>
 
+            <md-toolbar>
+                <div class="md-toolbar-tools">
+                    <md-button ng-click="openInfoSetter()">
 
+                        <md-icon md-svg-src="icons/ic_info_outline_white_24px.svg"></md-icon><span>Information</span>
 
-        <!--  Left sidenav for enterign data-->
-        <div class="col-lg-3 col-md-3 hide-gt-md">
-
-            <md-sidenav class="md-sidenav-left" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')"  hide-sm>
-
-
-                <md-toolbar ><h1 class="md-toolbar-tools">Your Information</h1></md-toolbar>
-
-                <md-content layout-padding ng-controller="appBuilderCtrl">
-                    <md-button ng-click="close()" class="md-primary" hide-gt-md>
-                        Close Sidenav Left
                     </md-button>
 
-                    <md-input-container>
-                        <label>Bride Name</label>
-                        <input type="text"   ng-change="updateIframe()"  ng-model="data"  >
-                    </md-input-container>
+                    <span flex></span>
+                </div>
+            </md-toolbar>
 
-                    <md-button ng-click="updateIframe()">Reset</md-button>
 
-                   
+            <div ng-include="'pages/info.html'"></div>
 
-                </md-content>
+        </md-sidenav>
+
+
+        <div class="col-lg-3 col-md-3 hide-gt-md">
+            <!--  Left for large devices-->
+            <md-sidenav class="md-sidenav-left" md-component-id="left" md-is-locked-open="$mdMedia('gt-lg')"  hide-md hide-sm >
+
+                <md-toolbar>
+                    <div class="md-toolbar-tools">
+                        <md-button >
+
+                            <md-icon md-svg-src="icons/ic_info_outline_white_24px.svg"></md-icon><span>Information</span>
+
+                        </md-button>
+
+                        <span flex></span>
+                    </div>
+                </md-toolbar>
+
+                <div ng-include="'pages/info.html'"></div>
+
+
             </md-sidenav>
 
         </div>
 
         <!--  Right col for loading html file-->
-        <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
 
-            <md-toolbar  layout="row" >
+            <md-toolbar>
+                <div class="md-toolbar-tools">
 
-                <md-button class="md-toolbar-tools" ng-click="openInfoSetter()"  hide-gt-md>
-                    Show Your Information
-                </md-button>
-                <!--hide-gt-md-->
+                    <md-button class="md-icon-button" ng-click="openInfoSetter()" hide-gt-lg>
 
-                 <!--Device selector-->
-                <md-select class="md-toolbar-tools" ng-model="topping" placeholder="Preview Size">
+                        <md-icon md-svg-src="icons/ic_info_outline_white_24px.svg"></md-icon>
+                   </md-button>
 
-                    <md-optgroup >
-                    <md-option  ng-value="None" ng-click="resetDisplay()"> <md-button >Reset Display </md-button></md-option>
-                    </md-optgroup>
+                    <!--Device selector-->
+                    <!--TODO: Adapt according to the actual device screen. Only allow smaller then current configuration-->
+                    <span>
+                    <md-select ng-model="topping" placeholder="Preview Size" hide-sm>
 
-                    <md-optgroup label="Desktop">
-                        <md-option ng-model = "device.name" ng-value="device.name" ng-click="updateDisplay(device.width,device.height)" ng-repeat="device in devices | filter: {category: 'Desktop' }">{{device.name}}</md-option>
-                    </md-optgroup>
-                    <md-optgroup label="Phone">
-                        <md-option ng-model = "device.name" ng-value="device.name" ng-click="updateDisplay(device.width,device.height)" ng-repeat="device in devices | filter: {category: 'Phone' }">{{device.name}}</md-option>
-                    </md-optgroup>
-                    <md-optgroup label="Phablet">
-                        <md-option ng-model = "device.name" ng-value="device.name" ng-click="updateDisplay(device.width,device.height)" ng-repeat="device in devices | filter: {category: 'Phablet' }">{{device.name}}</md-option>
-                    </md-optgroup>
-                    <md-optgroup label="Tablet">
-                        <md-option ng-model = "device.name" ng-value="device.name" ng-click="updateDisplay(device.width,device.height)" ng-repeat="device in devices | filter: {category: 'Tablet' }">{{device.name}}</md-option>
-                    </md-optgroup>
+                        <md-option  ng-value="None" ng-click="resetDisplay()"> <md-button >Reset Display </md-button></md-option>
 
-                </md-select>
+                        <md-optgroup label="Desktop">
+                            <md-option ng-model = "device.name" ng-value="device.name" ng-click="updateDisplay(device.width,device.height)" ng-repeat="device in devices | filter: {category: 'Desktop' }">{{device.name}}</md-option>
+                        </md-optgroup>
+                        <md-optgroup label="Phone">
+                            <md-option ng-model = "device.name" ng-value="device.name" ng-click="updateDisplay(device.width,device.height)" ng-repeat="device in devices | filter: {category: 'Phone' }">{{device.name}}</md-option>
+                        </md-optgroup>
+                        <md-optgroup label="Phablet">
+                            <md-option ng-model = "device.name" ng-value="device.name" ng-click="updateDisplay(device.width,device.height)" ng-repeat="device in devices | filter: {category: 'Phablet' }">{{device.name}}</md-option>
+                        </md-optgroup>
+                        <md-optgroup label="Tablet">
+                            <md-option ng-model = "device.name" ng-value="device.name" ng-click="updateDisplay(device.width,device.height)" ng-repeat="device in devices | filter: {category: 'Tablet' }">{{device.name}}</md-option>
+                        </md-optgroup>
 
+                    </md-select>
+                    </span>
 
-
-                    <md-button class="md-toolbar-tools" ng-click="openTemplateSelector()" > Select Different Template </md-button>
-
+                    <span flex></span>
+                   <md-button  ng-click="openTemplateSelector()" > <md-icon md-svg-src="icons/ic_input_white_24px.svg"></md-icon>  <span hide-sm >Select Different Template </span></md-button>
+                </div>
             </md-toolbar>
 
             <md-whiteframe class="md-whiteframe-z1" layout layout-align="center center">
-                <iframe id="myResponsiveWindow" src="templates/1/index.html" style="width: 100%; height: 1024px"></iframe>
+                <!--Currtemplate will be set in templateview.html-->
+                <iframe id="myResponsiveWindow" ng-src="{{profile.currTemplate}}" style="width: 100%; height: 1024px"></iframe>
             </md-whiteframe>
 
 
         </div>
-
-
 
 </div>
 

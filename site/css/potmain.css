@@ -28,12 +28,19 @@ html {
     transition: all 2s;
 }
 
-md-sidenav,
-md-sidenav.md-locked-open,
-md-sidenav.md-closed.md-locked-open-add-active {
-    min-width: 200px !important;
-    width: 85vw !important;
-    max-width: 400px !important;
-}
+/*md-sidenav,*/
+/*md-sidenav.md-locked-open,*/
+/*md-sidenav.md-closed.md-locked-open-add-active {*/
+    /*min-width: 200px !important;*/
+    /*width: 85vw !important;*/
+    /*max-width: 400px !important;*/
+/*}*/
 
 .top-buffer { margin-top:5px; }
+
+
+.material-icons.md-dark { color: rgba(0, 0, 0, 0.54); }
+.material-icons.md-dark.md-inactive { color: rgba(0, 0, 0, 0.26); }
+
+.material-icons.md-light { color: rgba(255, 255, 255, 1); }
+.material-icons.md-light.md-inactive { color: rgba(255, 255, 255, 0.3); }

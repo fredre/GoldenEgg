@@ -17,22 +17,24 @@
 
     var templatesInfo = [
         {
-            name: "The test template",
-            desc: "A template used for testing purposes",
+            name:"The test template",
+            desc:"A template used for testing purposes",
             show: true,
             id: 1,
-            usedcounter: 4,
-            thumbnail: "balbal.jpg",
-            preview:"preview.png"
+            usedcounter:4,
+            thumbnail:"balbal.jpg",
+            preview:"preview.png",
+            src:"templates/1/index.html"
         },
         {
-            name: "Template 2",
+            name: "Blissfull Wedding",
             desc: "Good looking template for nice people",
             show: true,
             id: 2,
             usedcounter: 4,
             thumbnail: "balbal.jpg",
-            preview:"preview.png"
+            preview:"preview.png",
+            src:"templates/2/index.html"
         }
     ];
 
@@ -117,10 +119,14 @@
                     //point to make sure the use has something in the database
 
                     //Get profile and save basic info on login
-                    $scope.profile = Profile(authData.uid);
-                    $scope.profile.email = authData.password.email;
-                    $scope.profile.lastSeen = $filter('date')(new Date(),'medium');
-                    $scope.profile.$save();
+                    Profile($scope.authData.uid).$bindTo($scope, "profile").then(function() {
+                        console.log($scope.profile);
+
+                        $scope.profile.email = authData.password.email;
+                        $scope.profile.lastSeen = $filter('date')(new Date(),'medium');
+
+                    });
+
 
                     //TODO: Redirect to correct page when login is scsessful
                     $scope.loadingLogin=false;
@@ -191,8 +197,10 @@
             }
 
 
+            //Get a profile and bind to the profile variable
             Profile($scope.authData.uid).$bindTo($scope, "profile").then(function() {
                 console.log($scope.profile);
+                console.log("Full profile loaded");
             });
 
         //Changes the size of the preview window
