@@ -9,6 +9,27 @@
     </md-input-container>
 
 
+    <!--File uploader-->
+    TODO: Implement multiple file upload
+    <input
+            id="imageUploader"
+            uploadcare-widget
+            data-public-key="5a79596ef1cad84a6df8"
+            data-tabs="file url"
+            data-images-only="true"
+            data-preview-step="true"
+            data-clearable="true"
+            data-multiple="false"
+            data-multiple-max=1
+            on-upload-complete="onUCUploadComplete(info)"
+            value="{{ object.image.info.cdnUrl }}"
+            on-widget-ready="onUCWidgetReady(widget)"
+            />
+            <!--on-widget-ready="onUCWidgetReady(widget)"-->
+            <!--value="{{ object.image.info.cdnUrl }}"-->
+
+
+
 
     <md-button ng-click="updateIframe()">Reset</md-button>
 </md-content>

@@ -1,6 +1,6 @@
 (function () {
 
-    var app = angular.module('potConf', ["firebase", "ngRoute",'ui.bootstrap',"ngMaterial",'ngMessages'])
+    var app = angular.module('potConf', ["firebase", "ngRoute",'ui.bootstrap',"ngMaterial",'ngMessages','ng-uploadcare'])
         .config(function($mdThemingProvider) {
             $mdThemingProvider.theme('default')
                 .primaryPalette('light-blue')
@@ -202,6 +202,22 @@
                 console.log($scope.profile);
                 console.log("Full profile loaded");
             });
+
+            $scope.onUCUploadComplete = function(infoFObj){
+
+                console.log(infoFObj);
+
+                $scope.fileselector.value(null);
+
+            };
+
+            $scope.onUCWidgetReady=function(thewidget){
+                console.log('The widget is ready');
+                console.log(thewidget);
+
+                $scope.fileselector = thewidget;
+
+            }
 
         //Changes the size of the preview window
             $scope.updateDisplay=function (width,height){
